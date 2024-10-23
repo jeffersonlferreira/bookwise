@@ -1,0 +1,68 @@
+-- database: /root/dev/bookwise/database.sqlite
+
+-- DROP TABLE
+DROP TABLE IF EXISTS livros;
+DROP TABLE IF EXISTS usuarios;
+
+-- USUARIOS
+CREATE TABLE usuarios (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    nome varchar(255) NOT NULL,
+    email varchar(255) NOT NULL,
+    password varchar(255) NOT NULL
+);
+
+-- CRIAR REGISTRO DE USUARIOS
+INSERT INTO usuarios (nome, email, password) VALUES ('admin', 'admin@email.com', 'senha');
+INSERT INTO usuarios (nome, email, password) VALUES ('user', 'user@email.com', 'senha');
+
+-- LIVROS
+CREATE TABLE livros (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    titulo varchar(255),
+    autor varchar(100),
+    descricao varchar(255),
+    ano_de_lancamento INTEGER,
+    imagem varchar(255),
+    usuario_id INTEGER,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- ALTER TABLE livros ADD COLUMN nro_paginas INTEGER;
+-- ALTER TABLE livros DROP COLUMN nro_paginas;
+
+-- CRIAR REGISTRO DE LIVROS
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('Senhor dos Anéis', 'J.R.R. Tolkien', 'Uma jornada épica em um mundo de fantasia.', 1954, 'image/1.png');
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('O Hobbit', 'J.R.R. Tolkien', 'A aventura de Bilbo Bolseiro em busca de um tesouro.', 1937, 'image/2.jpg');
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('Harry Potter e a Pedra Filosofal', 'J.K. Rowling', 'O início da saga mágica de Harry Potter.', 1997, 'image/3.jpg');
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('O Código da Vinci', 'Dan Brown', 'Um thriller cheio de mistérios e conspirações.', 2003, 'image/4.jpg');
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('Dom Casmurro', 'Machado de Assis', 'Um clássico da literatura brasileira.', 1899, 'image/5.jpg');
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('O Pequeno Príncipe', 'Antoine de Saint-Exupéry', 'Uma história atemporal sobre amizade e amor.', 1943, 'image/6.jpg');
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('A Revolução dos Bichos', 'George Orwell', 'Uma fábula política sobre a natureza do poder.', 1945, 'image/7.jpg');
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('1984', 'George Orwell', 'Um retrato distópico de um futuro controlado por um regime totalitário.', 'image/8.jpg', 1949);
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('O Nome da Rosa', 'Umberto Eco', 'Um romance histórico ambientado em um mosteiro medieval.', 1980, 'image/9.jpg');
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('A Montanha Mágica', 'Thomas Mann', 'Um romance épico sobre a vida e a morte.', 1924, 'image/10.jpg');
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('O Processo', 'Franz Kafka', '', 1925, 'image/11.jpg');
+INSERT INTO livros (titulo, autor, descricao, ano_de_lancamento, imagem)
+VALUES ('A Metamorfose', 'Franz Kafka', '', 1915, 'image/12.jpg');
+
+CREATE TABLE avaliacoes (
+    id INTEGER PRIMARY KEY,
+    usuario_id INTEGER,
+    livro_id INTEGER,
+    avaliacao TEXT,
+    nota INTEGER,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (livro_id) REFERENCES livros(id) ON DELETE CASCADE
+);
